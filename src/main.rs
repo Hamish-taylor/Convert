@@ -27,7 +27,14 @@ fn main() {
     };
     let mut ctx: ClipboardContext = ClipboardProvider::new().unwrap();
     if actual_base == 10 {
-        let converted_value = from_base_10_to_base_36(value.parse::<u64>().unwrap());
+        let value = match value.parse::<u64>() {
+            Ok(value) => value,
+            Err(_) => {
+                println!("Invalid base 10 input");
+                return;
+            }
+        };
+        let converted_value = from_base_10_to_base_36(value);
         println!("{:}", converted_value);
         ctx.set_contents(converted_value).unwrap();
     } else {
